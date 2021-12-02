@@ -79,7 +79,7 @@ dependencies:
 
 The only things developers should need to know for external dependencies are:
 
-- a domain name
+- the domain name
 - ports or protocols to connect to
 - Certificate Authorities for internal services
 - an authentication method (*if needed*)
@@ -87,3 +87,25 @@ The only things developers should need to know for external dependencies are:
 Developers shouldn't need to know destination IP addresses or how DNS resolution works. This should all be transparent.
 
 Having connection data allows platform and security engineers to review flows before releases and get forewarning for potential changes to firewall rules and outbound proxy allow-lists.
+
+## Visualization
+
+Once connection data is stored, a centralised service can pull in this data from repos in scope for aggregation. Once aggredated data can be visualised in many ways:
+
+- system to system mapping
+- connections encriched with historical metrics from flowlogs and other sources
+- additional data about systems such, as data labels, can be used to map flows from different data domains or trust zones
+
+D3.js has many examples of interesting visualizations:
+
+- https://observablehq.com/@d3/force-directed-graph
+- https://observablehq.com/@vasturiano/hilbert-map-of-ipv4-address-space
+- https://observablehq.com/@xianwu/force-directed-graph-network-graph-with-arrowheads-and-lab
+
+
+## Pre-flight network testing
+
+DNS resolution of endpoints and connectivity could be tested from within a cluster before actual app deployment. For authed connections testing is probably unlikely but port status (Open/Closed) should be testable for local unproxied endpoints.
+
+Future state and current state can be compared and clashes can 
+
