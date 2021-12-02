@@ -15,8 +15,11 @@ This would enable:
 1. Automated comparisons between expected traffic flows and obsserved traffic flows (makes unknowns into knowns)
 
 Similar schemas for documenting network connections:
-https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#_rgnc3w40xy
-https://cybox.mitre.org/language/version2.1/xsddocs/objects/Network_Connection_Object.html
+
+- https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#_rgnc3w40xy
+- https://cybox.mitre.org/language/version2.1/xsddocs/objects/Network_Connection_Object.html
+
+## User Story
 
 >***As a platform engineer***, I would like to know how systems connect
 >***so that I*** can:
