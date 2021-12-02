@@ -6,13 +6,13 @@ Aim is to have all intended network flows documented in code beside both applica
 
 This would enable:
 
-1. Network Connectivity for components to be well documented
+1. Network connectivity for components to be well documented
 1. Changes to network connectivity be surfaced before a release
 1. Modeling and analysis of flows between components in the design phase
 1. Identification of network security gaps
 1. Identification of network bottlenecks and SPOFs
 1. Identification of external dependencies
-1. Automated comparisons between expected traffic flows and obsserved traffic flows (makes unknowns into knowns)
+1. Automated comparisons between expected traffic flows and observed traffic flows (makes unknowns into knowns)
 
 Similar schemas for documenting network connections:
 
