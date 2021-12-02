@@ -1,21 +1,8 @@
 # Network Modeling for applications
 
-Some inspiration:
-https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#_rgnc3w40xy
-https://cybox.mitre.org/language/version2.1/xsddocs/objects/Network_Connection_Object.html
+## Aim
 
->***As a platform engineer***, I would like to know how systems connect
-
->***So that I*** can build robust, secure networks to cater for these connections
-
->***And*** analyse traffic flows and identify gaps
-
-In scope:
-
-- layer 3 and 4 network connections - connections between namespaces and pods within a cluster or between cluster is a nice-to-have and could be translated to NetPols?
-- Outbound connections, as apps won't know what will be connectiing to them
-
-Aim is to have all intended network flows documented in code beside ANZx application and platform code
+Aim is to have all intended network flows documented in code beside both application and platform code.
 
 This would enable:
 
@@ -27,7 +14,30 @@ This would enable:
 1. Identification of external dependencies
 1. Automated comparisons between expected traffic flows and obsserved traffic flows (makes unknowns into knowns)
 
-An application should know what external dependencies are called. These can be represented as:
+Similar schemas for documenting network connections:
+https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#_rgnc3w40xy
+https://cybox.mitre.org/language/version2.1/xsddocs/objects/Network_Connection_Object.html
+
+>***As a platform engineer***, I would like to know how systems connect
+>***so that I*** can:
+> - build robust, secure networks to allow these connections
+> - analyse suggested traffic flows
+> - identify gaps in documentation
+
+## Scope
+
+In scope:
+
+- Layer 3, 4 and 7 info
+- Outbound connections, as apps won't know what will be connectiing to them
+
+Out of scope:
+
+- Documenting pod and namespace components of [Kubernetes Network Policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/)
+
+## Data Model
+
+An application should know what external dependencies are called (things like APIs ). These can be represented as:
 
 ```yaml
 metadata:
@@ -42,12 +52,13 @@ dependencies:
       port: 443
       trustlevel: high
       protocols:
-        - HTTP
         - GRPC
+        - HTTP
+        - HTTP/2
       tls: 1.3
       auth: mutual
   - file-service: 
-      domain: another.example.com
+      domain: files.example.com
       port: 22
       ipv4: 
       trustlevel: high
@@ -55,20 +66,24 @@ dependencies:
         - SSH
       auth: mutual
   - external-api: 
-      domain: another.example.com
+      domain: ext.example.com
       port: 443
       trustlevel: low
       protocols:
         - GRPC
+        - HTTP
       tls: 1.2
       auth: server-only
 
 ```
 
-The only things a developer should need to know to connect to an external systems are:
+The only things developers should need to know for external dependencies are:
 
-- The domain name
-- The ports or protocols to connect to
-- The authentication method ( if needed)
+- a domain name
+- ports or protocols to connect to
+- Certificate Authorities for internal services
+- an authentication method (*if needed*)
 
-They shouldn't need to know about 
+Developers shouldn't need to know destination IP addresses or how DNS resolution works. This should all be transparent.
+
+Having connection data allows platform and security engineers to review flows before releases and get forewarning for potential changes to firewall rules and outbound proxy allow-lists.
